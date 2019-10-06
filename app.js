@@ -11,6 +11,30 @@ listener.post('/login' , function(request, response) {
 	const body = request.body;
 	fs.readFile('./db/users.json', function(err, data) {
 	    let users = JSON.parse(data);
+	    const withName = users.filter((value) => value.userName === body.userName);
+	    if (withName && withName.length === 1 && withName[0].password === body.password) {
+	    	response.send({
+    			status: {
+    				code: 0,
+    				state: "succsess"
+    			},
+    			
+    			data: body
+    		});
+	    } else {
+	    	response.send({
+    			status: {
+    				code: -1,
+    				state: "fail"
+    			},
+    			error : {
+    				msg: "rong name or password"
+    			},
+    			data: {
+
+    			}
+    		});
+	    }
 	});
 });
 listener.post('/singUp' , function(request, response) {
