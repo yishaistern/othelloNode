@@ -5,7 +5,11 @@ console.log("Node is working");
 const listener = express();
 var fs = require('fs');
 listener.use(bodyPars());
-
+listener.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 listener.post('/login' , function(request, response) {
 	const body = request.body;
